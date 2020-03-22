@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <string>
-#include <list>
+#include <set>
 #include <fstream>
 
 using namespace std;
@@ -109,41 +109,26 @@ Student::~Student()
 
 int main(){
 
-	//task 1
-	ifstream fin;
-	fin.open("names.txt");
+    //task 2
+    ifstream fin;
+    fin.open("names.txt");
+    set <string> students;
+    set <string> :: iterator i;
 
-	list<Student> students;
-	list<Student>::iterator i;
-	string line = "";
-	string name = "";
-	bool push = true;
-	double grade = 0;
+    string name;
+    int grade;
+    while(!fin.eof()){
+        fin >> name;
+        fin >> grade;
+        if(grade < 50){
+            students.insert(name);
+        }
+    }
 
-	while(!fin.eof()){
-		fin >> name;
-		fin >> grade;
-		if(students.empty()){
-			students.push_back(Student(name,grade));
-		}else{
-			Student s(name, grade);
-			for(i = students.begin(); i != students.end(); i++){
-				if(s.getgrade() < (*i).getgrade()){
-					students.insert(i,s);
-					push = false;
-					break;
-				}
-			}
-			if(push){
-				students.push_back(s);
-			}
-			push = true;
-		}
-	}		
+    for(i = students.begin(); i != students.end(); i++){
+        cout << (*i) << endl;
+    }
 
-	for(i = students.begin(); i != students.end(); i++){
-		cout << (*i) << endl;
-	}
 
 }
 

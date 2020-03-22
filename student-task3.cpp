@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <string>
-#include <list>
+#include <map>
 #include <fstream>
 
 using namespace std;
@@ -109,43 +109,33 @@ Student::~Student()
 
 int main(){
 
-	//task 1
-	ifstream fin;
-	fin.open("names.txt");
+    //task 2
+    ifstream fin;
+    fin.open("names.txt");
+    map <string, int> students;
+    map <string, int> :: iterator i;
 
-	list<Student> students;
-	list<Student>::iterator i;
-	string line = "";
-	string name = "";
-	bool push = true;
-	double grade = 0;
+    string name;
+    int grade;
+    
+    while(!fin.eof()){
+        fin >> name;
+        fin >> grade;
+ 
+        if(students.find(name) != students.end()){
+            if(grade < 50){
+                students[name]++;
+            }
+        }else{
+            students[name] = 0;
+            if(grade < 50){
+                students[name]++;
+            }
+        }
+    }
 
-	while(!fin.eof()){
-		fin >> name;
-		fin >> grade;
-		if(students.empty()){
-			students.push_back(Student(name,grade));
-		}else{
-			Student s(name, grade);
-			for(i = students.begin(); i != students.end(); i++){
-				if(s.getgrade() < (*i).getgrade()){
-					students.insert(i,s);
-					push = false;
-					break;
-				}
-			}
-			if(push){
-				students.push_back(s);
-			}
-			push = true;
-		}
-	}		
+    for(i = students.begin(); i != students.end(); i++){
+        cout << i->first << " " << i->second << endl;
+    }
 
-	for(i = students.begin(); i != students.end(); i++){
-		cout << (*i) << endl;
-	}
-
-}
-
-
-
+}    
